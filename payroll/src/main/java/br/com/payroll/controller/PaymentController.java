@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 
+import static java.math.BigDecimal.*;
+import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.ResponseEntity.*;
+
 @RestController
 @RequestMapping("payments")
 @RequiredArgsConstructor
@@ -22,19 +26,13 @@ public class PaymentController {
 
     private final PaymentService service;
 
-    @HystrixCommand(fallbackMethod = "getPaymentAlternative")
     @GetMapping("{workerId}/days/{days}")
     public ResponseEntity<Payment> getPayment(@PathVariable Long workerId,
                                               @PathVariable Integer days) {
 
         val payment = service.getPayment(workerId, days);
 
-        return ResponseEntity.status(HttpStatus.OK).body(payment);
+        return status(OK).body(payment);
     }
 
-    public ResponseEntity<Payment> getPaymentAlternative(Long workerId, Integer days) {
-
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Payment("Test", BigDecimal.valueOf(200.00),days));
-
-    }
 }
