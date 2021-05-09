@@ -22,7 +22,7 @@ public class ControllerServerConfig extends ResourceServerConfigurerAdapter {
 
     private static final String[] OPERATOR = { "/worker/**" };
 
-    private static final String[] ADMIN = { "/payroll/**", "/user/**" };
+    private static final String[] ADMIN = { "/payroll/**", "/user/**", "/actuator/**", "/worker/actuator/**", "oauth/actuator/**"};
 
 
     @Override

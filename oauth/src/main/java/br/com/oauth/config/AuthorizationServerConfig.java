@@ -1,6 +1,7 @@
 package br.com.oauth.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,6 +17,14 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @RequiredArgsConstructor
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
+
+    @Value("${oauth.client.name}")
+    private String clientEnv;
+
+    @Value("${oauth.client.secret}")
+    private String secretEnv;
+
+    private static final String PASSWORD = "password";
 
     private final BCryptPasswordEncoder passwordEncoder;
 
@@ -33,10 +42,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
-                .withClient("123")
-                .secret(passwordEncoder.encode("321"))
+                .withClient(clientEnv)
+                .secret(passwordEncoder.encode(secretEnv))
                 .scopes("read", "write")
-                .authorizedGrantTypes("password")
+                .authorizedGrantTypes(PASSWORD)
                 .accessTokenValiditySeconds(86400);
     }
 
