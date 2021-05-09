@@ -1,4 +1,4 @@
-package br.com.oauth;
+package br.com.oauth.controller;
 
 import br.com.oauth.entitie.User;
 import br.com.oauth.service.UserService;
@@ -16,7 +16,7 @@ import static org.springframework.http.ResponseEntity.status;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
-public class controller {
+public class OauthController {
 
     private final UserService service;
 
