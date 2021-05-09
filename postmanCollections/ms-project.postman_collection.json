@@ -11,15 +11,23 @@
 				{
 					"name": "all workers",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8765/worker/workers",
-							"protocol": "http",
+							"raw": "{{url}}/worker/workers",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "8765",
 							"path": [
 								"worker",
 								"workers"
@@ -31,15 +39,23 @@
 				{
 					"name": "worker by id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8765/worker/workers/1",
-							"protocol": "http",
+							"raw": "{{url}}/worker/workers/1",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "8765",
 							"path": [
 								"worker",
 								"workers",
@@ -52,15 +68,23 @@
 				{
 					"name": "actuator",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8765/worker/actuator",
-							"protocol": "http",
+							"raw": "{{url}}/worker/actuator",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "8765",
 							"path": [
 								"worker",
 								"actuator"
@@ -77,15 +101,23 @@
 				{
 					"name": "payment",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8765/payroll/payments/3/days/30",
-							"protocol": "http",
+							"raw": "{{url}}/payroll/payments/3/days/30",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "8765",
 							"path": [
 								"payroll",
 								"payments",
@@ -105,6 +137,16 @@
 				{
 					"name": "info-repo",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -129,15 +171,23 @@
 				{
 					"name": "user by id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8765/user/users/2",
-							"protocol": "http",
+							"raw": "{{url}}/user/users/2",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "8765",
 							"path": [
 								"user",
 								"users",
@@ -150,15 +200,23 @@
 				{
 					"name": "user by Email",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8765/user/users/search?email=leia@gmail.com",
-							"protocol": "http",
+							"raw": "{{url}}/user/users/search?email=leia@gmail.com",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "8765",
 							"path": [
 								"user",
 								"users",
@@ -169,6 +227,79 @@
 									"key": "email",
 									"value": "leia@gmail.com"
 								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "oAuth",
+			"item": [
+				{
+					"name": "get token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (responseCode.code >= 200 && responseCode.code < 300) {\r",
+									"    var json = JSON.parse(responseBody);\r",
+									"    postman.setEnvironmentVariable('token', json.access_token);\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{client-secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{client-name}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/oauth/oauth/token",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"oauth",
+								"oauth",
+								"token"
 							]
 						}
 					},
